@@ -27,6 +27,19 @@ input:focus{border-color:#f5a623}button{width:100%;padding:12px;border:0;border-
 .NA-West{background:#3f70ac}.NA-East{background:#50a9dc}.Asia{background:#f3c43e;color:#17120b}.Oceania{background:#f28a0e}.EU-West{background:#08a768}.EU-Central{background:#a3ce60;color:#17220e}
 footer{border-top:1px solid #d8e0e9;padding:20px 0;color:#687586;font-size:12px}
 @media(max-width:750px){.grid{grid-template-columns:1fr}.map{min-width:650px}}
+  @media(max-width:750px){.grid{grid-template-columns:1fr}.map{min-width:650px}}
+
+.controls,
+.controls input,
+.controls button {
+    position: relative;
+    z-index: 100;
+}
+
+input {
+    pointer-events: auto !important;
+    user-select: text !important;
+}
 </style>
 </head>
 <body>

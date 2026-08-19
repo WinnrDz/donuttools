@@ -103,7 +103,7 @@ if(x<S||x>=225000||z<S||z>=225000){
 document.getElementById('result').innerHTML='<div class="num">Outside</div><div class="region">Outside mapped area</div><div class="range">Map range: −225,000 to +225,000.</div>';return}
 select(Math.floor((z-S)/Z),Math.floor((x-S)/Z),x,z)}
 document.getElementById('find').onclick=find;
-['x','z'].forEach(id=>document.getElementById(id).onkeydown=e=>e.key==='Enter'&&find());
+['x','z'].forEach(id=>document.getElementById(id).onkeydown=e=>e.key==='Enter'&&find()); find();
 find();
 </script>
 </body>

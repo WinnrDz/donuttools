@@ -1,456 +1,524 @@
-
 <!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="google-site-verification" content="hYytJZu4f8UWCHJurJaItixWFWb6xgt_l_tpCtvW3YA" />
 
-<title>Donut SMP Region Finder</title>
+    <title>
+      Donut SMP Region Finder – Find Minecraft Regions by Coordinates
+    </title>
 
-<style>
-*{box-sizing:border-box}
+    <meta
+      name="description"
+      content="Donut SMP Region Finder lets you enter Minecraft X and Z coordinates to instantly find the region number and its boundaries."
+    />
 
-body{
-    margin:0;
-    background:#eef3f8;
-    color:#18212b;
-    font:15px system-ui,sans-serif;
-}
+    <style>
+      * {
+        box-sizing: border-box;
+      }
 
-.wrap{
-    width:min(1000px,calc(100% - 30px));
-    margin:auto;
-}
+      body {
+        margin: 0;
+        background: #eef3f8;
+        color: #18212b;
+        font:
+          15px system-ui,
+          sans-serif;
+      }
 
-header{
-    border-bottom:1px solid #d8e0e9;
-    background:#fff;
-}
+      .wrap {
+        width: min(1000px, calc(100% - 30px));
+        margin: auto;
+      }
 
-.nav{
-    height:60px;
-    display:flex;
-    align-items:center;
-}
+      header {
+        border-bottom: 1px solid #d8e0e9;
+        background: #fff;
+      }
 
-.brand{
-    font-weight:900;
-    font-size:20px;
-}
+      .nav {
+        height: 60px;
+        display: flex;
+        align-items: center;
+      }
 
-.brand b{
-    color:#f5a623;
-}
+      .brand {
+        font-weight: 900;
+        font-size: 20px;
+      }
 
-main{
-    padding:35px 0 60px;
-}
+      .brand b {
+        color: #f5a623;
+      }
 
-.hero{
-    text-align:center;
-    max-width:700px;
-    margin:auto;
-}
+      main {
+        padding: 35px 0 60px;
+      }
 
-.hero h1{
-    font-size:clamp(34px,6vw,55px);
-    line-height:1;
-    margin:10px 0;
-    letter-spacing:-2px;
-}
+      .hero {
+        text-align: center;
+        max-width: 700px;
+        margin: auto;
+      }
 
-.hero h1 span{
-    color:#f5a623;
-}
+      .hero h1 {
+        font-size: clamp(34px, 6vw, 55px);
+        line-height: 1;
+        margin: 10px 0;
+        letter-spacing: -2px;
+      }
 
-.hero p{
-    color:#687586;
-    font-size:16px;
-    line-height:1.6;
-}
+      .hero h1 span {
+        color: #f5a623;
+      }
 
-.ad{
-    height:74px;
-    border:1px dashed #d8e0e9;
-    border-radius:12px;
-    display:grid;
-    place-items:center;
-    color:#687586;
-    font-size:11px;
-    letter-spacing:1px;
-    margin:25px 0;
-    background:#f7f9fc;
-}
+      .hero p {
+        color: #687586;
+        font-size: 16px;
+        line-height: 1.6;
+      }
 
-.grid{
-    display:grid;
-    grid-template-columns:300px 1fr;
-    gap:18px;
-}
+      .ad {
+        height: 74px;
+        border: 1px dashed #d8e0e9;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        color: #687586;
+        font-size: 11px;
+        letter-spacing: 1px;
+        margin: 25px 0;
+        background: #f7f9fc;
+      }
 
-.card{
-    background:#fff;
-    border:1px solid #d8e0e9;
-    border-radius:16px;
-}
+      .grid {
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        gap: 18px;
+      }
 
-.controls{
-    padding:20px;
-}
+      .card {
+        background: #fff;
+        border: 1px solid #d8e0e9;
+        border-radius: 16px;
+      }
 
-.title{
-    font-weight:900;
-    font-size:18px;
-    margin:0 0 18px;
-}
+      .controls {
+        padding: 20px;
+      }
 
-label{
-    display:block;
-    color:#687586;
-    font-size:12px;
-    font-weight:800;
-    margin-bottom:5px;
-}
+      .title {
+        font-weight: 900;
+        font-size: 18px;
+        margin: 0 0 18px;
+      }
 
-input{
-    width:100%;
-    padding:12px;
-    border:1px solid #d8e0e9;
-    background:#f7f9fc;
-    border-radius:9px;
-    margin-bottom:12px;
-    outline:0;
-}
+      label {
+        display: block;
+        color: #687586;
+        font-size: 12px;
+        font-weight: 800;
+        margin-bottom: 5px;
+      }
 
-input:focus{
-    border-color:#f5a623;
-}
+      input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #d8e0e9;
+        background: #f7f9fc;
+        border-radius: 9px;
+        margin-bottom: 12px;
+        outline: 0;
+      }
 
-button{
-    width:100%;
-    padding:12px;
-    border:0;
-    border-radius:9px;
-    background:#f5a623;
-    color:#1b1205;
-    font-weight:900;
-    cursor:pointer;
-}
+      input:focus {
+        border-color: #f5a623;
+      }
 
-.result{
-    margin-top:17px;
-    padding:15px;
-    border:1px solid #d8e0e9;
-    border-radius:12px;
-    background:#f7f9fc;
-}
+      button {
+        width: 100%;
+        padding: 12px;
+        border: 0;
+        border-radius: 9px;
+        background: #f5a623;
+        color: #1b1205;
+        font-weight: 900;
+        cursor: pointer;
+      }
 
-.num{
-    font-size:36px;
-    font-weight:1000;
-}
+      .result {
+        margin-top: 17px;
+        padding: 15px;
+        border: 1px solid #d8e0e9;
+        border-radius: 12px;
+        background: #f7f9fc;
+      }
 
-.region{
-    font-size:18px;
-    font-weight:900;
-}
+      .num {
+        font-size: 36px;
+        font-weight: 1000;
+      }
 
-.range{
-    font-size:12px;
-    color:#687586;
-    line-height:1.7;
-    margin-top:7px;
-}
+      .region {
+        font-size: 18px;
+        font-weight: 900;
+      }
 
-.mapcard{
-    padding:15px;
-}
+      .range {
+        font-size: 12px;
+        color: #687586;
+        line-height: 1.7;
+        margin-top: 7px;
+      }
 
-.mapcard h2{
-    font-size:17px;
-    margin:0 0 12px;
-}
+      .mapcard {
+        padding: 15px;
+      }
 
-.viewport{
-    overflow:auto;
-    background:#8eafe4;
-    border-radius:10px;
-}
+      .mapcard h2 {
+        font-size: 17px;
+        margin: 0 0 12px;
+      }
 
-.map{
-    min-width:650px;
-    display:grid;
-    grid-template-columns:repeat(9,1fr);
-    border:2px solid #17202a;
-}
+      .viewport {
+        overflow: auto;
+        background: #8eafe4;
+        border-radius: 10px;
+      }
 
-.cell{
-    min-height:85px;
-    border:1px solid #17202a;
-    display:grid;
-    place-items:center;
-    align-content:center;
-    color:white;
-    font-weight:1000;
-    cursor:pointer;
-    text-align:center;
-}
+      .map {
+        min-width: 650px;
+        display: grid;
+        grid-template-columns: repeat(9, 1fr);
+        border: 2px solid #17202a;
+      }
 
-.cell:hover,
-.active{
-    filter:brightness(1.1);
-    box-shadow:inset 0 0 0 4px white;
-}
+      .cell {
+        min-height: 85px;
+        border: 1px solid #17202a;
+        display: grid;
+        place-items: center;
+        align-content: center;
+        color: white;
+        font-weight: 1000;
+        cursor: pointer;
+        text-align: center;
+      }
 
-.cell small{
-    font-size:10px;
-    margin-top:4px;
-}
+      .cell:hover,
+      .active {
+        filter: brightness(1.1);
+        box-shadow: inset 0 0 0 4px white;
+      }
 
-.NA-West{background:#3f70ac}
-.NA-East{background:#50a9dc}
-.Asia{background:#f3c43e;color:#17120b}
-.Oceania{background:#f28a0e}
-.EU-West{background:#08a768}
-.EU-Central{background:#a3ce60;color:#17220e}
+      .cell small {
+        font-size: 10px;
+        margin-top: 4px;
+      }
 
-footer{
-    border-top:1px solid #d8e0e9;
-    padding:20px 0;
-    color:#687586;
-    font-size:12px;
-}
+      .NA-West {
+        background: #3f70ac;
+      }
+      .NA-East {
+        background: #50a9dc;
+      }
+      .Asia {
+        background: #f3c43e;
+        color: #17120b;
+      }
+      .Oceania {
+        background: #f28a0e;
+      }
+      .EU-West {
+        background: #08a768;
+      }
+      .EU-Central {
+        background: #a3ce60;
+        color: #17220e;
+      }
 
-@media(max-width:750px){
-    .grid{
-        grid-template-columns:1fr;
-    }
+      footer {
+        border-top: 1px solid #d8e0e9;
+        padding: 20px 0;
+        color: #687586;
+        font-size: 12px;
+      }
 
-    .map{
-        min-width:650px;
-    }
-}
-</style>
-</head>
+      @media (max-width: 750px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
 
-<body>
+        .map {
+          min-width: 650px;
+        }
+      }
+    </style>
+  </head>
 
-<header>
-    <div class="wrap nav">
+  <body>
+    <header>
+      <div class="wrap nav">
         <div class="brand">🍩 Donut<b>Tools</b></div>
-    </div>
-</header>
+      </div>
+    </header>
 
-<main class="wrap">
+    <main class="wrap">
+      <section class="hero">
+        <h1>Donut SMP <span>Region Finder</span></h1>
+        <p>
+          Enter your Minecraft X and Z coordinates to find your Donut SMP region
+          and its boundaries.
+        </p>
+      </section>
 
-<section class="hero">
-    <h1>Donut SMP <span>Region Finder</span></h1>
-    <p>
-        Enter your Minecraft X and Z coordinates to find
-        your Donut SMP region and its boundaries.
-    </p>
-</section>
+      <section class="grid">
+        <aside class="card controls">
+          <h2 class="title">Find Your Region</h2>
 
-<section class="grid">
+          <label>X Coordinate</label>
+          <input id="x" type="number" value="0" />
 
-<aside class="card controls">
+          <label>Z Coordinate</label>
+          <input id="z" type="number" value="0" />
 
-    <h2 class="title">Find Your Region</h2>
+          <button id="find">Find Region</button>
 
-    <label>X Coordinate</label>
-    <input id="x" type="number" value="0">
+          <div class="result" id="result"></div>
+        </aside>
 
-    <label>Z Coordinate</label>
-    <input id="z" type="number" value="0">
+        <section class="card mapcard">
+          <h2>Region Map</h2>
 
-    <button id="find">Find Region</button>
+          <div class="viewport">
+            <div class="map" id="map"></div>
+          </div>
+        </section>
+      </section>
+    </main>
 
-    <div class="result" id="result"></div>
+    <footer>
+      <div class="wrap">
+        © 2026 DonutTools · Community-made utility · Not affiliated with Donut
+        SMP.
+      </div>
+    </footer>
 
-</aside>
+    <script>
+      const S = -225000;
+      const Z = 50000;
 
-<section class="card mapcard">
+      const N = [
+        [82, 100, 101, 102, 103, 104, 105, 106, 91],
+        [83, 44, 75, 42, 41, 40, 39, 38, 92],
+        [84, 45, 14, 13, 12, 11, 10, 37, 93],
+        [85, 46, 74, 3, 2, 1, 25, 36, 94],
+        [86, 47, 72, 71, 5, 4, 24, 35, 95],
+        [87, 51, 17, 9, 8, 7, 23, 34, 96],
+        [88, 54, 18, 61, 62, 21, 22, 33, 97],
+        [89, 26, 27, 28, 29, 30, 59, 32, 98],
+        [90, 107, 108, 109, 110, 111, 112, 113, 99],
+      ];
 
-    <h2>Region Map</h2>
+      const R = [
+        [
+          "Oceania",
+          "Oceania",
+          "Oceania",
+          "Oceania",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+        ],
+        [
+          "Oceania",
+          "NA-West",
+          "NA-West",
+          "NA-West",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+        ],
+        [
+          "Oceania",
+          "NA-West",
+          "NA-West",
+          "NA-West",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+        ],
+        [
+          "Oceania",
+          "Oceania",
+          "Oceania",
+          "NA-West",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+        ],
+        [
+          "Asia",
+          "Asia",
+          "Asia",
+          "Asia",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+          "NA-East",
+        ],
+        [
+          "Asia",
+          "EU-West",
+          "EU-West",
+          "EU-Central",
+          "EU-Central",
+          "EU-Central",
+          "EU-Central",
+          "EU-Central",
+          "NA-East",
+        ],
+        [
+          "Asia",
+          "EU-West",
+          "EU-West",
+          "EU-Central",
+          "EU-Central",
+          "EU-Central",
+          "EU-Central",
+          "EU-Central",
+          "EU-Central",
+        ],
+        [
+          "EU-Central",
+          "EU-West",
+          "EU-Central",
+          "EU-Central",
+          "EU-Central",
+          "EU-Central",
+          "EU-Central",
+          "EU-Central",
+          "EU-Central",
+        ],
+        [
+          "EU-Central",
+          "EU-West",
+          "EU-West",
+          "EU-West",
+          "EU-West",
+          "EU-West",
+          "EU-West",
+          "EU-West",
+          "EU-Central",
+        ],
+      ];
 
-    <div class="viewport">
-        <div class="map" id="map"></div>
-    </div>
+      const D = {
+        "NA-West": "NA West",
+        "NA-East": "NA East",
+        "EU-West": "EU West",
+        "EU-Central": "EU Central",
+        Oceania: "Oceania",
+        Asia: "Asia",
+      };
 
-</section>
+      const M = document.getElementById("map");
 
-</section>
+      const fmt = (n) => n.toLocaleString();
 
-</main>
+      const range = (i) => [S + i * Z, S + (i + 1) * Z];
 
-<footer>
-    <div class="wrap">
-        © 2026 DonutTools · Community-made utility ·
-        Not affiliated with Donut SMP.
-    </div>
-</footer>
+      let active;
 
-<script>
+      for (let r = 0; r < 9; r++) {
+        for (let c = 0; c < 9; c++) {
+          const e = document.createElement("div");
 
-const S = -225000;
-const Z = 50000;
+          e.className = "cell " + R[r][c];
 
-const N = [
-[82,100,101,102,103,104,105,106,91],
-[83,44,75,42,41,40,39,38,92],
-[84,45,14,13,12,11,10,37,93],
-[85,46,74,3,2,1,25,36,94],
-[86,47,72,71,5,4,24,35,95],
-[87,51,17,9,8,7,23,34,96],
-[88,54,18,61,62,21,22,33,97],
-[89,26,27,28,29,30,59,32,98],
-[90,107,108,109,110,111,112,113,99]
-];
+          e.innerHTML =
+            "<b>#" + N[r][c] + "</b>" + "<small>" + D[R[r][c]] + "</small>";
 
-const R = [
-['Oceania','Oceania','Oceania','Oceania','NA-East','NA-East','NA-East','NA-East','NA-East'],
-['Oceania','NA-West','NA-West','NA-West','NA-East','NA-East','NA-East','NA-East','NA-East'],
-['Oceania','NA-West','NA-West','NA-West','NA-East','NA-East','NA-East','NA-East','NA-East'],
-['Oceania','Oceania','Oceania','NA-West','NA-East','NA-East','NA-East','NA-East','NA-East'],
-['Asia','Asia','Asia','Asia','NA-East','NA-East','NA-East','NA-East','NA-East'],
-['Asia','EU-West','EU-West','EU-Central','EU-Central','EU-Central','EU-Central','EU-Central','NA-East'],
-['Asia','EU-West','EU-West','EU-Central','EU-Central','EU-Central','EU-Central','EU-Central','EU-Central'],
-['EU-Central','EU-West','EU-Central','EU-Central','EU-Central','EU-Central','EU-Central','EU-Central','EU-Central'],
-['EU-Central','EU-West','EU-West','EU-West','EU-West','EU-West','EU-West','EU-West','EU-Central']
-];
+          e.onclick = () => select(r, c);
 
-const D = {
-    'NA-West':'NA West',
-    'NA-East':'NA East',
-    'EU-West':'EU West',
-    'EU-Central':'EU Central',
-    'Oceania':'Oceania',
-    'Asia':'Asia'
-};
+          M.appendChild(e);
+        }
+      }
 
-const M = document.getElementById('map');
+      function select(r, c, x, z) {
+        if (active) active.classList.remove("active");
 
-const fmt = n => n.toLocaleString();
+        active = M.children[r * 9 + c];
 
-const range = i => [
-    S + i * Z,
-    S + (i + 1) * Z
-];
+        active.classList.add("active");
 
-let active;
+        const n = N[r][c];
+        const reg = R[r][c];
 
-for(let r = 0; r < 9; r++){
+        const [x0, x1] = range(c);
+        const [z0, z1] = range(r);
 
-    for(let c = 0; c < 9; c++){
+        document.getElementById("result").innerHTML =
+          '<div class="num">#' +
+          n +
+          "</div>" +
+          '<div class="region">' +
+          D[reg] +
+          "</div>" +
+          '<div class="range">' +
+          "X: " +
+          fmt(x0) +
+          " ≤ X < " +
+          fmt(x1) +
+          "<br>" +
+          "Z: " +
+          fmt(z0) +
+          " ≤ Z < " +
+          fmt(z1) +
+          (x != null ? "<br>Selected: X " + fmt(x) + ", Z " + fmt(z) : "") +
+          "</div>";
+      }
 
-        const e = document.createElement('div');
+      function find() {
+        const x = +document.getElementById("x").value;
+        const z = +document.getElementById("z").value;
 
-        e.className = 'cell ' + R[r][c];
-
-        e.innerHTML =
-            '<b>#' + N[r][c] + '</b>' +
-            '<small>' + D[R[r][c]] + '</small>';
-
-        e.onclick = () => select(r,c);
-
-        M.appendChild(e);
-    }
-}
-
-function select(r,c,x,z){
-
-    if(active)
-        active.classList.remove('active');
-
-    active = M.children[r * 9 + c];
-
-    active.classList.add('active');
-
-    const n = N[r][c];
-    const reg = R[r][c];
-
-    const [x0,x1] = range(c);
-    const [z0,z1] = range(r);
-
-    document.getElementById('result').innerHTML =
-
-        '<div class="num">#' + n + '</div>' +
-
-        '<div class="region">' +
-        D[reg] +
-        '</div>' +
-
-        '<div class="range">' +
-
-        'X: ' + fmt(x0) +
-        ' ≤ X < ' + fmt(x1) +
-
-        '<br>' +
-
-        'Z: ' + fmt(z0) +
-        ' ≤ Z < ' + fmt(z1) +
-
-        (x != null
-            ? '<br>Selected: X ' + fmt(x) +
-              ', Z ' + fmt(z)
-            : '') +
-
-        '</div>';
-}
-
-function find(){
-
-    const x = +document.getElementById('x').value;
-    const z = +document.getElementById('z').value;
-
-    if(
-        x < S ||
-        x >= 225000 ||
-        z < S ||
-        z >= 225000
-    ){
-
-        document.getElementById('result').innerHTML =
-
+        if (x < S || x >= 225000 || z < S || z >= 225000) {
+          document.getElementById("result").innerHTML =
             '<div class="num">Outside</div>' +
-
             '<div class="region">' +
-            'Outside mapped area' +
-            '</div>' +
-
+            "Outside mapped area" +
+            "</div>" +
             '<div class="range">' +
-            'Map range: −225,000 to +225,000.' +
-            '</div>';
+            "Map range: −225,000 to +225,000." +
+            "</div>";
 
-        return;
-    }
+          return;
+        }
 
-    select(
-        Math.floor((z - S) / Z),
-        Math.floor((x - S) / Z),
-        x,
-        z
-    );
-}
+        select(Math.floor((z - S) / Z), Math.floor((x - S) / Z), x, z);
+      }
 
-document.getElementById('find').onclick = find;
+      document.getElementById("find").onclick = find;
 
-['x','z'].forEach(id => {
-
-    document
-        .getElementById(id)
-        .onkeydown = e => {
-
-            if(e.key === 'Enter')
-                find();
-
+      ["x", "z"].forEach((id) => {
+        document.getElementById(id).onkeydown = (e) => {
+          if (e.key === "Enter") find();
         };
+      });
 
-});
-
-find();
-
-</script>
-
-</body>
+      find();
+    </script>
+  </body>
 </html>
